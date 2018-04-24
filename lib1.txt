@@ -1,0 +1,75 @@
+USE version 4.2.0, Copyright (C) 1999-2016 University of Bremen
+use> open open lib1.soil
+Error: File `D:\SE1\sem 2\SECA\open' could not be found!
+use> open lib1.soil
+lib1.soil> !new Member('joe')
+lib1.soil> !joe.no_onloan := 0
+lib1.soil> !new Book('bible')
+lib1.soil> !bible.title := 'The Bible'
+lib1.soil> !bible.author := 'The man above'
+lib1.soil> 
+lib1.soil> !new Copy('c1')
+lib1.soil> !new Copy('c2')
+lib1.soil> !insert (c1,bible) into CopyOf
+lib1.soil> !insert (c2,bible) into CopyOf
+lib1.soil> !bible.no_copies := 2
+lib1.soil> !bible.no_onshelf := 2
+lib1.soil> !c1.status := 'onShelf'
+lib1.soil> !c2.status := 'onShelf'
+lib1.soil> !new Member('tom')
+lib1.soil> !tom.no_onloan := 0
+lib1.soil> !new Copy('c3')
+lib1.soil> !new Book('WandP')
+lib1.soil> !WandP.author := 'Tolstoy'
+lib1.soil> !WandP.title := 'War & Peace'
+lib1.soil> 
+use> lib1.soil> !new Member('joe')
+lib1.soil> !joe.no_onloan := 0
+lib1.soil> !new Book('bible')
+lib1.soil> !bible.title := 'The Bible'
+lib1.soil> !bible.author := 'The man above'
+lib1.soil> 
+lib1.soil> !new Copy('c1')
+lib1.soil> !new Copy('c2')
+lib1.soil> !insert (c1,bible) into CopyOf
+lib1.soil> !insert (c2,bible) into CopyOf
+lib1.soil> !bible.no_copies := 2
+lib1.soil> !bible.no_onshelf := 2
+lib1.soil> !c1.status := 'onShelf'
+lib1.soil> !c2.status := 'onShelf'
+lib1.soil> !new Member('tom')
+lib1.soil> !tom.no_onloan := 0
+lib1.soil> !new Copy('c3')
+lib1.soil> !new Book('WandP')
+lib1.soil> !WandP.author := 'Tolstoy'
+lib1.soil> !WandP.title := 'War & Peace'
+lib1.soil> 
+use> checking structure...
+Multiplicity constraint violation in association `CopyOf':
+  Object `c3' of class `Copy' is connected to 0 objects of class `Book'
+  at association end `book' but the multiplicity is specified as `1'.
+Multiplicity constraint violation in association `CopyOf':
+  Object `WandP' of class `Book' is connected to 0 objects of class `Copy'
+  at association end `copies' but the multiplicity is specified as `1..*'.
+checked structure in 9ms.
+checking invariants...
+checked 0 invariants in 0.001s, 0 failures.
+use> !insert (c3, WandP) into CopyOf
+use> !wandP.status := 'onShelf'
+<input>:1:0: Variable `wandP' in expression `wandP' is undefined.
+use> !WandP.status := 'onShelf'
+<input>:1:0: Class `Book' does not have an attribute `status'.
+use> !c3.status := 'onShelf'
+use> !wantP.no_copies := 1
+<input>:1:0: Variable `wantP' in expression `wantP' is undefined.
+use> !WandP.no_copies := 1
+use> !WandP.no_onshelf:= 1
+use> check
+checking structure...
+checked structure in 1ms.
+checking invariants...
+checked 0 invariants in 0.000s, 0 failures.
+use> !joe.borrow(c1)
+use> !joe.borrow(c2)
+use> !tom.borrow(c2)
+use> 
