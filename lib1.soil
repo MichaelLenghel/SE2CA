@@ -7,22 +7,27 @@
 !bible.author := 'The man above'
 !new Copy('c1')
 !new Copy('c2')
+!new Copy('c3')
 !insert (c1,bible) into CopyOf
 !insert (c2,bible) into CopyOf
-!bible.no_copies := 2
-!bible.no_onshelf := 2
-!c1.status := 'onShelf'
-!c2.status := 'onShelf'
+!insert (c3,bible) into CopyOf
+!bible.no_copies := 3
+!bible.no_onshelf := 3
 !new Member('tom')
-!tom.no_onloan := 0
-!new Copy('c3')
+!new Copy('c4')
 !new Book('WandP')
 !WandP.author := 'Tolstoy'
 !WandP.title := 'War & Peace'
-!insert (c3,WandP) into CopyOf
-!c3.status := 'onShelf'
+!insert (c4,WandP) into CopyOf
 !WandP.no_copies := 1
 !WandP.no_onshelf := 1
 !joe.borrow(c1)
-!joe.borrow(c2)
-!tom.borrow(c2)
+!tom.borrow(c1)
+c
+!joe.return(c1)
+!tom.reserve(c1)
+!joe.reserve(c1)
+c
+!tom.cancelReservation(c1)
+!joe.reserve(c1)
+!joe.borrowReserved(c1)
