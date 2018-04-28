@@ -45,9 +45,11 @@ Currently only commands starting with `?', `:', `help' or `info' are allowed.
 lib1.soil> c
 Error: precondition false in operation call `Member::borrow(self:tom, c:c1)'.
 lib1.soil> !joe.return(c1)
-lib1.soil> !tom.reserve(c1)
-lib1.soil> !joe.reserve(c1)
-[Error] 1 precondition in operation call `Member::reserve(self:joe, c:c1)' does not hold:
+lib1.soil> !new Reserve('res1')
+lib1.soil> !new Reserve('res2')
+lib1.soil> !res1.reserve(tom, c1)
+lib1.soil> !res2.reserve(joe, c1)
+[Error] 1 precondition in operation call `Reserve::reserve(self:res2, m:joe, c:c1)' does not hold:
   borrowIfAvailable: (c.status = 'onShelf')
     c : Copy = c1
     c.status : String = 'reserved'
@@ -55,7 +57,7 @@ lib1.soil> !joe.reserve(c1)
     (c.status = 'onShelf') : Boolean = false
 
   call stack at the time of evaluation:
-    1. Member::reserve(self:joe, c:c1) [caller: joe.reserve(c1)@<input>:1:0]
+    1. Reserve::reserve(self:res2, m:joe, c:c1) [caller: res2.reserve(joe, c1)@<input>:1:0]
 
 +------------------------------------------------------------------+
 | Evaluation is paused. You may inspect, but not modify the state. |
@@ -65,13 +67,22 @@ Currently only commands starting with `?', `:', `help' or `info' are allowed.
 `c' continues the evaluation (i.e. unwinds the stack).
 
 lib1.soil> c
-Error: precondition false in operation call `Member::reserve(self:joe, c:c1)'.
-lib1.soil> !tom.cancelReservation(c1)
-lib1.soil> !joe.reserve(c1)
-lib1.soil> !joe.borrowReserved(c1)
+Error: precondition false in operation call `Reserve::reserve(self:res2, m:joe, c:c1)'.
+lib1.soil> !res1.cancelReservation(tom, c1)
+lib1.soil> !res1.reserve(joe, c1)
+lib1.soil> !res1.borrowReserved(joe, c1)
+lib1.soil> !res2.reserve(tom, c2)
 lib1.soil> 
 use> precondition `cond1' is true
 use> !joe.fine := 5
 use> !opexit
 postcondition `setFine' is true
+use> !openter joe overDue(c2)
+precondition `cond1' is false
+Error: precondition false in operation call `Member::overDue(self:joe, c:c2)'.
+use> !opexit
+Error: No current operation
+use> !openter joe overDue(c1)
+precondition `cond1' is true
+use> !joe.fine := 0
 use> 

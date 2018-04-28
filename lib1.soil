@@ -25,9 +25,12 @@
 !tom.borrow(c1)
 c
 !joe.return(c1)
-!tom.reserve(c1)
-!joe.reserve(c1)
+!new Reserve('res1')
+!new Reserve('res2')
+!res1.reserve(tom, c1)
+!res2.reserve(joe, c1)
 c
-!tom.cancelReservation(c1)
-!joe.reserve(c1)
-!joe.borrowReserved(c1)
+!res1.cancelReservation(tom, c1)
+!res1.reserve(joe, c1)
+!res1.borrowReserved(joe, c1)
+!res2.reserve(tom, c2)
